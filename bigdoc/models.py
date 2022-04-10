@@ -1,27 +1,18 @@
 from django.db import models
 
-from django.core.validators import MaxValueValidator, MinValueValidator
-
 # Create your models here.
 
 
-class Doencas(models.Model):
-    nome = models.CharField(max_length=50)
-    sintomas = models.ManyToManyField('Sintomas')
-
-
-class Sintomas(models.Model):
-    nome = models.CharField(max_length=50)
-
-
-class Pesos(models.Model):
+class Diagnostico(models.Model):
     doenca = models.ForeignKey(
-        Doencas,
-        on_delete=models.CASCADE
+        'Doenca',
+        on_delete=models.CASCADE,
+        related_name="diagnostico"
     )
     sintoma = models.ForeignKey(
-        Sintomas,
-        on_delete=models.CASCADE
+        'Sintoma',
+        on_delete=models.CASCADE,
+        related_name="diagnostico"
     )
 
     class Peso(models.IntegerChoices):
@@ -32,3 +23,20 @@ class Pesos(models.Model):
         MUITO_COMUM = 5
 
     peso = models.PositiveSmallIntegerField(choices=Peso.choices)
+
+    def __str__(self):
+        return f"{self.doenca} e {self.sintoma} - {self.peso}"
+
+
+class Doenca(models.Model):
+    nome = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return f"{self.nome}"
+
+
+class Sintoma(models.Model):
+    nome = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return f"{self.nome}"
