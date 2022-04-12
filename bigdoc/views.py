@@ -1,8 +1,21 @@
-from urllib import request
 from django.shortcuts import render
+
+from .models import Sintoma
+from .util import diagnosticar
 
 # Create your views here.
 
 
 def index(request):
-    return render(request, 'bigdoc/index.html')
+    if request.method == 'POST':
+        sintomas = request.POST.getlist("sintomas")
+        diagnostico = diagnosticar(sintomas)
+
+        return render(request, 'bigdoc/diagnostico.html', {
+            'sintomas_list': sintomas,
+            'diagnostico': dict(diagnostico)
+        })
+
+    return render(request, 'bigdoc/index.html', {
+        'sintomas': Sintoma.objects.all(),
+    })
