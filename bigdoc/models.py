@@ -24,12 +24,18 @@ class Diagnostico(models.Model):
 
     peso = models.PositiveSmallIntegerField(choices=Peso.choices)
 
+    class Meta:
+        ordering = ['doenca', 'sintoma']
+
     def __str__(self):
-        return f"{self.doenca} e {self.sintoma} - {self.peso}"
+        return f"{self.doenca} - {self.sintoma}: {self.peso}"
 
 
 class Doenca(models.Model):
     nome = models.CharField(max_length=50, unique=True)
+
+    class Meta:
+        ordering = ['nome']
 
     def __str__(self):
         return f"{self.nome}"
@@ -37,6 +43,9 @@ class Doenca(models.Model):
 
 class Sintoma(models.Model):
     nome = models.CharField(max_length=50, unique=True)
+
+    class Meta:
+        ordering = ['nome']
 
     def __str__(self):
         return f"{self.nome}"
