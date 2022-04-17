@@ -1,12 +1,17 @@
 {% extends 'bigdoc/base.html' %}
+{% load static %}
 
 {% block title %}BigDoc{% endblock %}
+
+{% block head %}
+<script src="{% static 'bigdoc/search.js' %}" async></script>
+{% endblock %}
 
 {% block body %}
 <main class="container">
   {{ block.super }}
 
-  <p class="mt-5">Escolha os sintomas:</p>
+  <input type="text" id="search" placeholder="Pesquisar sintomas" class="form-control w-auto mt-5 mb-4">
 
   <form action="{% url 'bigdoc:index' %}" method="post">{% csrf_token %}
 
@@ -19,7 +24,7 @@
     </div>
     {% endfor %}
     <div class="row-auto mt-3">
-      <input class="btn btn-warning btn-lg" type="submit" value="Diagnosticar">
+      <input class="btn btn-warning btn-lg" id="diagnosticar" type="submit" value="Diagnosticar">
     </div>
   </form>
 
