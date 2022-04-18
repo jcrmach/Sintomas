@@ -11,7 +11,11 @@
 <main class="container">
   {{ block.super }}
 
-  <input type="text" id="search" placeholder="Pesquisar sintomas" class="form-control w-auto mt-5 mb-4">
+  <input type="search" id="search" placeholder="Pesquisar sintomas" class="form-control w-auto mt-5 mb-4">
+
+  <p id="not-found" class="visually-hidden text-muted">
+    <i>Nenhum sintoma encontrado...</i>
+  </p>
 
   <form action="{% url 'bigdoc:index' %}" method="post">{% csrf_token %}
 
