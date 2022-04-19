@@ -3,10 +3,10 @@ const sintomas = document.getElementsByName('sintomas');
 const searchbox = document.getElementById('search');
 const btnDiagnosticar = document.getElementById('diagnosticar');
 
-const p = document.getElementById('not-found');
+const notFoundDiv = document.getElementById('not-found');
 
 searchbox.addEventListener('input', function() {
-    p.classList.add("visually-hidden");
+    notFoundDiv.classList.add("visually-hidden");
 
     if (!this.value) {
         btnDiagnosticar.disabled = false;
@@ -27,7 +27,7 @@ searchbox.addEventListener('input', function() {
                 counter += 1;
                 
                 if (counter == sintomas.length) {
-                    p.classList.remove("visually-hidden");
+                    notFoundDiv.classList.remove("visually-hidden");
                 }
             } else {
                 sintoma.closest("div").classList.remove("visually-hidden");
@@ -35,3 +35,12 @@ searchbox.addEventListener('input', function() {
         });
     }
 });
+
+
+const btnClear = document.getElementById('btn-clear');
+
+btnClear.addEventListener('click', function() {
+    searchbox.value = "";
+
+    searchbox.dispatchEvent(new InputEvent('input'));
+})

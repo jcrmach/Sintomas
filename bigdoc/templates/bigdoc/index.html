@@ -13,9 +13,12 @@
 
   <input type="search" id="search" placeholder="Pesquisar sintomas" class="form-control w-auto mt-5 mb-4">
 
-  <p id="not-found" class="visually-hidden text-muted">
-    <i>Nenhum sintoma encontrado...</i>
-  </p>
+  <div id="not-found" class="visually-hidden text-muted">
+    <p class="d-inline">
+      <i>Nenhum <b>sintoma </b>encontrado...</i>
+    </p>
+    <button id="btn-clear" class="btn btn-link"><i>Mostrar todos</i></button>
+  </div>
 
   <form action="{% url 'bigdoc:index' %}" method="post">{% csrf_token %}
 
