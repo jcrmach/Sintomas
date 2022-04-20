@@ -1,0 +1,44 @@
+{% extends 'bigdoc/base.html' %}
+
+{% block title %}Diagnostico - BigDoc{% endblock %}
+
+{% block body %}
+<main class="container">
+  {{ block.super }}
+
+  <h2 class="mt-5 text-center">Diagnóstico</h2>
+  <p>Sintomas escolhidos:</p>
+
+  <div class="row row-cols-auto justify-content-between gy-4">
+    <div class="col-lg-9">
+      {% for sintoma in sintomas_list %}
+      <div class="d-inline-block m-1 p-2 bg-primary text-white rounded-3">
+        {{ sintoma }}
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="col-lg-3 align-self-center text-end">
+      <a class="btn btn-outline-warning" href="{% url 'bigdoc:index' %}">Mudar sintomas</a>
+    </div>
+  </div>
+
+  <table class="table table-striped mt-5">
+    <caption>Valores aproximados *</caption>
+    <thead>
+      <tr>
+        <th>Doença</th>
+        <th>%</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for key, value in diagnostico.items %}
+      <tr>
+        <td>{{ key }}</td>
+        <td>{{ value }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</main>
+{% endblock %}
