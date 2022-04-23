@@ -13,7 +13,7 @@ def index(request):
 
         return render(request, 'bigdoc/diagnostico.html', {
             'sintomas_list': sintomas,
-            'diagnostico': dict(diagnostico)
+            'diagnostico': diagnostico
         })
 
     return render(request, 'bigdoc/index.html', {

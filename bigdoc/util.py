@@ -1,29 +1,27 @@
-from .models import Sintoma
+from .models import Sintoma, Doenca
 
-from collections import Counter
+import numpy as np
+from joblib import load
+
+from django.conf import settings
 
 
 def diagnosticar(sintomas):
-    diag_as_peso = Counter()
+    knn = load(settings.BASE_DIR /
+               'bigdoc/static/bigdoc/models/diagnostico.joblib')
+    dados_entrada = extrair_dados(sintomas)
+
+    prediction = knn.predict_proba(dados_entrada)
+
+    diagnostico = {}
+    for doenca in Doenca.objects.all():
+        diagnostico[doenca.nome] = round(prediction[0][doenca.ordem] * 100)
+    return diagnostico
+
+
+def extrair_dados(sintomas):
+    entrada = np.zeros(Sintoma.objects.all().count(), int)
     for sintoma in sintomas:
-        diag_as_peso.update(diag_sintoma_as_dict(sintoma))
-
-    return diag_to_percent(diag_as_peso).most_common()
-
-
-def diag_sintoma_as_dict(sintoma):
-    diagnosticos = Sintoma.objects.get(nome=sintoma).diagnostico.all()
-    diag_dict = {}
-    if diagnosticos is not None:
-        for diagnostico in diagnosticos:
-            diag_dict[diagnostico.doenca] = diagnostico.peso
-        return diag_dict
-    else:
-        return None
-
-
-def diag_to_percent(diagnostico):
-    diag = diagnostico.copy()
-    for key in diag:
-        diag[key] = round((diagnostico[key] / sum(diagnostico.values())) * 100)
-    return diag
+        sint = Sintoma.objects.get(nome=sintoma)
+        entrada[sint.ordem] = 1
+    return entrada.reshape(1, -1)
