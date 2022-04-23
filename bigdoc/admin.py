@@ -7,4 +7,3 @@ from .models import *
 
 admin.site.register(Doenca)
 admin.site.register(Sintoma)
-admin.site.register(Diagnostico)
