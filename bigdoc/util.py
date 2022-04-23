@@ -10,6 +10,7 @@ def diagnosticar(sintomas):
     knn = load(settings.BASE_DIR /
                'bigdoc/static/bigdoc/models/diagnostico.joblib')
     dados_entrada = extrair_dados(sintomas)
+
     prediction = knn.predict_proba(dados_entrada)
 
     diagnostico = {}
